@@ -1,4 +1,4 @@
-# Start With Apache Spark with Python
+# Start Apache Spark with Python
 
 ## Windows ##
 1.	Install a JDK (Java Development Kit) from http://www.oracle.com/technetwork/java/javase/downloads/index.html . **You must install the 		JDK into a path with no spaces**, for example c:\jdk. Be sure to change the default location for the installation! **DO NOT INSTALL JAVA 9-INSTALL JAVA 8. Spark is not compatible with Java 9.**
