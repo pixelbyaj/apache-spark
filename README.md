@@ -1,4 +1,4 @@
-# Start With Apache Spark with Python
+# Start Apache Spark with Python
 
 ## Windows ##
 1.	Install a JDK (Java Development Kit) from http://www.oracle.com/technetwork/java/javase/downloads/index.html . **You must install the 		JDK into a path with no spaces**, for example c:\jdk. Be sure to change the default location for the installation! **DO NOT INSTALL JAVA 9-INSTALL JAVA 8. Spark is not compatible with Java 9.**
@@ -30,7 +30,7 @@
 
 10.	Close the environment variable screen and the control panels.
 
-11.	Install the latest Enthought Canopy for Python 3.5 from https://store.enthought.com/downloads/#default Don’t install a Python 2.7 			version! (**If you already have Python 3.5 don't need to install Canopy. Even you can intall Python differntly and configuret the 			same**)
+11.	Install the latest Enthought Canopy for Python 3.5 from https://store.enthought.com/downloads/#default Don’t install a Python 		2.7 version! **If you already have Python 3.5 don't need to install Canopy. Even you can intall Python differntly and 			configuret the same**
 
 12. Test it out!
 
@@ -45,3 +45,5 @@
 		8.	Enter quit() to exit the spark shell, and close the console window
 		9.	You’ve got everything set up! Hooray!
 		
+## NOTE : ##
+For dataset please download data from https://grouplens.org/datasets/movielens/ 
