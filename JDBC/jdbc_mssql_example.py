@@ -2,37 +2,25 @@
 ### import ratings.csv to MSSQL
 ###
 from pyspark.sql import SparkSession
+
 import collections
 import datetime
+from DBConnection import DBConnection
 
-spark = SparkSession\
-        .builder\
-        .appName("SQLJDBC")\
-        .getOrCreate()
+        
+class SQLExample:
+# Get JDBC CONNECTION
+    def getDBConnection(self,spark):
+        self.db = DBConnection(spark,"DBJson.json")
 
-# MSSQL JDBC CONNECTION
-def jdbc_mssql_python(spark):
-    jdbcHostName="DBServerNameOrIP"
-    jdbcDataBase="DataBaseName"
-    jdbcPort=1433#TCP/IP PORT NUMBER
-    jdbcUserName="Username"
-    jdbcPassword="Password"
-    jdbcUrl="jdbc:sqlserver://{0}:{1};database={2};".format(jdbcHostName,jdbcPort,jdbcDataBase)
-    connectionProperties={
-        "user":jdbcUserName,
-        "password":jdbcPassword,
-        "driver":"com.microsoft.sqlserver.jdbc.SQLServerDriver"
-    }
+    def getDataFrame(self,pushdown_query):
+        df = self.db.getDataFrame(pushdown_query)
+        list=df.groupBy("rating").count().collect()
+        sortedResults= sorted(list)
+        rd = self.db.getRddFromDataFrame(sortedResults)
+        rating = rd.map(lambda x: x).collect()
+        return rating
 
-    pushdown_query = "ratings"
-    df = spark.read.jdbc(url=jdbcUrl, table=pushdown_query, properties=connectionProperties)
-    list=df.groupBy("rating").count().collect()
-    sortedResults= sorted(list)
-    
-    for key, value in sortedResults:
-        print("%s %i" % (key, value))
-    
-   
 if __name__ == "__main__":
     spark = SparkSession \
         .builder \
@@ -41,9 +29,15 @@ if __name__ == "__main__":
     print("-------------------------------------#Program Started--------------------------------------")
     now = datetime.datetime.now()
     print(now.strftime("%Y-%m-%d %H:%M:%S"))
-    jdbc_mssql_python(spark)
+    sql = SQLExample() 
+    sql.getDBConnection(spark)
+    ratings = sql.getDataFrame("ratings")
+    for key,value in ratings:
+         print("%s %i" % (key, value))
+
     spark.stop()
     now = datetime.datetime.now()
+
     print(now.strftime("%Y-%m-%d %H:%M:%S"))
     print("-------------------------------------#Program Stoped--------------------------------------")
-    
+

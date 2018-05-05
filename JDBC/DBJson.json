@@ -1,0 +1,8 @@
+{
+    "ConnectionType":"<MSSQL,MYSQL>",
+    "HostName":"<SQL Server Host Name>" ,
+    "DataBaseName":"<DB Name>",
+    "Port":1433,
+    "UserName":"<User Name>",
+    "Password":"<Password>"
+}

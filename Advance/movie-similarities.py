@@ -20,8 +20,8 @@ def makePairs( userRatings ):
 
 def filterDuplicates( userRatings ):
     ratings = userRatings[1]
-    (movie1, rating1) = ratings[0]
-    (movie2, rating2) = ratings[1]
+    movie1 = ratings[0]
+    movie2 = ratings[1]
     return movie1 < movie2
 
 def computeCosineSimilarity(ratingPairs):

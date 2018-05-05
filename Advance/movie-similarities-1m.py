@@ -53,11 +53,11 @@ sc = SparkContext(conf = conf)
 
 print("\nLoading movie names...")
 nameDict = loadMovieNames()
-
-data = sc.textFile("s3n://sundog-spark/ml-1m/ratings.dat")
+#https://storagebyaj.file.core.windows.net/hdinsght/sparkdataset/ml-20m/genome-scores.csv
+data = sc.textFile("wasbs:///hdinsight/sparkdataset/ml-20/ratings.csv")
 
 # Map ratings to key / value pairs: user ID => movie ID, rating
-ratings = data.map(lambda l: l.split("::")).map(lambda l: (int(l[0]), (int(l[1]), float(l[2]))))
+ratings = data.map(lambda l: l.split(",")).map(lambda l: (int(l[0]), (int(l[1]), float(l[2]))))
 
 # Emit every movie rated together by the same user.
 # Self-join to find every combination.
@@ -82,7 +82,7 @@ moviePairSimilarities = moviePairRatings.mapValues(computeCosineSimilarity).pers
 
 # Save the results if desired
 moviePairSimilarities.sortByKey()
-moviePairSimilarities.saveAsTextFile("movie-sims")
+moviePairSimilarities.saveAsTextFile("wasbs:///hdinsight/sparkdataset/ml-20/movie-sims")
 
 # Extract similarities for the movie we care about that are "good".
 if (len(sys.argv) > 1):

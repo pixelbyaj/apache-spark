@@ -1,5 +1,4 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
 import collections
 import datetime
 
@@ -11,14 +10,14 @@ spark = SparkSession\
 print("-------------------------------------#Program Started--------------------------------------")
 now = datetime.datetime.now()
 print(now.strftime("%Y-%m-%d %H:%M:%S"))
-df = spark.read.csv(r"D:\dataset\ml-20m\movies.csv")
-#ratings = lines.map(lambda x: x.split(",")[2])
-#result = lines.countByValue()
-data=df.sort(col("_c0").desc()).collect()
+df = spark.read.csv("wasbs://storagebyaj.file.core.windows.net/hdinsght/sparkdataset/ml-20m/ratings.csv")
 
-for key in data:
-        print(key[0]+" "+key[1]+" "+key[2])
+list=df.groupBy("rating").count().collect()
+sortedResults= sorted(list)
+    
+for key, value in sortedResults:
+    print("%s %i" % (key, value))
 
-print("-------------------------------------#Program Stopped--------------------------------------")
+print("-------------------------------------#Program Stoped--------------------------------------")
 now = datetime.datetime.now()
 print(now.strftime("%Y-%m-%d %H:%M:%S"))
